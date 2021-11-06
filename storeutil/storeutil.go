@@ -36,10 +36,12 @@ func Dispatch(a interface{}) {
 		)[0].Interface().(*rematch.Action),
 	)
 
-	for _, c := range stateTypeToComponents[st] {
+	copyed := make([]vecty.Component, 0)
+	copyed = append(copyed, stateTypeToComponents[st]...)
+	stateTypeToComponents[st] = make([]vecty.Component, 0)
+	for _, c := range copyed {
 		vecty.Rerender(c)
 	}
-	stateTypeToComponents[st] = make([]vecty.Component, 0)
 }
 
 func initReducer(reducer interface{}) {
