@@ -2,6 +2,7 @@ package components
 
 import (
 	"todos-vecty/storeutil"
+	"todos-vecty/storeutil/slice"
 
 	"github.com/hexops/vecty"
 	"github.com/hexops/vecty/elem"
@@ -21,7 +22,7 @@ func (a *AddTodo) onNewItemTitleInput(e *vecty.Event) {
 }
 
 func (a *AddTodo) onAdd(e *vecty.Event) {
-	storeutil.TodosDispacher.Dispatch(storeutil.TodosReducer.Add.With(storeutil.NewAddTodoAction(a.newItemTitle)))
+	storeutil.Dispatch(slice.NewAddTodoAction(a.newItemTitle))
 	a.newItemTitle = ""
 	vecty.Rerender(a)
 }

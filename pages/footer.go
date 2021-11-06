@@ -21,8 +21,8 @@ func (f *footer) Render() vecty.ComponentOrHTML {
 			vecty.Markup(),
 			vecty.Text("Show:"),
 		),
-		components.NewFilterLink(model.All, "All"),
-		components.NewFilterLink(model.Active, "Active"),
-		components.NewFilterLink(model.Completed, "Completed"),
+		&components.FilterLink{Type: model.All, Label: "All"},
+		&components.FilterLink{Type: model.Active, Label: "Active"},
+		&components.FilterLink{Type: model.Completed, Label: "Completed"},
 	)
 }

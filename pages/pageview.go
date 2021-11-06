@@ -14,7 +14,7 @@ type PageView struct {
 func (p *PageView) Render() vecty.ComponentOrHTML {
 	return elem.Body(
 		&components.AddTodo{},
-		components.NewVisibleTodoList(),
+		&components.VisibleTodoList{},
 		&footer{},
 	)
 }

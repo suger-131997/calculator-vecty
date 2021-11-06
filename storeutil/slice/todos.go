@@ -1,24 +1,15 @@
-package storeutil
+package slice
 
 import (
+	"reflect"
 	"todos-vecty/model"
 
 	"github.com/dannypsnl/redux/v2/rematch"
-	"github.com/dannypsnl/redux/v2/store"
 )
 
-var TodosDispacher *store.Store
+var TodosStateType = reflect.TypeOf([]model.Todo{})
 
-var TodosReducer *todosStore
-
-func TodosStoreInit() {
-	nextTodoId = 0
-
-	TodosReducer = &todosStore{State: make([]model.Todo, 0)}
-	TodosDispacher = store.New(TodosReducer)
-}
-
-type todosStore struct {
+type TodosReducer struct {
 	rematch.Reducer
 	State []model.Todo
 
@@ -37,7 +28,7 @@ func NewAddTodoAction(t string) addTodoAction {
 	return addTodoAction{payload: model.Todo{Id: nextTodoId, Title: t, Completed: false}}
 }
 
-func (t *todosStore) AddTodo(s []model.Todo, a addTodoAction) []model.Todo {
+func (t *TodosReducer) AddTodo(s []model.Todo, a addTodoAction) []model.Todo {
 	return append(s, a.payload)
 }
 
@@ -49,7 +40,7 @@ func NewCompleteTodoAction(id int) completeTodoAction {
 	return completeTodoAction{payload: id}
 }
 
-func (t *todosStore) CompleteTodo(s []model.Todo, a completeTodoAction) []model.Todo {
+func (t *TodosReducer) CompleteTodo(s []model.Todo, a completeTodoAction) []model.Todo {
 	newState := make([]model.Todo, 0)
 
 	for _, todo := range s {
@@ -60,4 +51,8 @@ func (t *todosStore) CompleteTodo(s []model.Todo, a completeTodoAction) []model.
 	}
 
 	return newState
+}
+
+func init() {
+	nextTodoId = 0
 }
