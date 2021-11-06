@@ -29,18 +29,36 @@ func (a *AddTodo) onAdd(e *vecty.Event) {
 
 func (a *AddTodo) Render() vecty.ComponentOrHTML {
 	return elem.Div(
-		elem.Form(
-			elem.Input(
+		vecty.Markup(
+			vecty.Class("block", "mb-0"),
+		),
+		elem.Div(
+			vecty.Markup(
+				vecty.Class("columns", "is-grouped"),
+			),
+			elem.Div(
 				vecty.Markup(
-					prop.Value(a.newItemTitle),
-					event.Input(a.onNewItemTitleInput),
+					vecty.Class("column", "is-half"),
+				),
+				elem.Input(
+					vecty.Markup(
+						vecty.Class("input", "is-rounded"),
+						prop.Value(a.newItemTitle),
+						event.Input(a.onNewItemTitleInput),
+					),
 				),
 			),
-			elem.Button(
+			elem.Div(
 				vecty.Markup(
-					event.Click(a.onAdd).PreventDefault(),
+					vecty.Class("column", "is-one-quarter"),
 				),
-				vecty.Text("Add Todo"),
+				elem.Button(
+					vecty.Markup(
+						vecty.Class("button", "is-primary"),
+						event.Click(a.onAdd).PreventDefault(),
+					),
+					vecty.Text("Add Todo"),
+				),
 			),
 		),
 	)

@@ -13,8 +13,13 @@ type PageView struct {
 
 func (p *PageView) Render() vecty.ComponentOrHTML {
 	return elem.Body(
-		&components.AddTodo{},
-		&components.VisibleTodoList{},
-		&footer{},
+		elem.Div(
+			vecty.Markup(
+				vecty.Class("container"),
+			),
+			&components.AddTodo{},
+			&components.VisibleTodoList{},
+			&footer{},
+		),
 	)
 }

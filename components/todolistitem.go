@@ -22,9 +22,12 @@ func (t *todoListItem) Render() vecty.ComponentOrHTML {
 
 	return elem.ListItem(
 		vecty.Markup(
+			vecty.Class("is-size-3"),
 			vecty.Style("text-decoration", textdeco),
 			event.Click(t.OnClick),
 		),
-		vecty.Text(t.Text),
+		vecty.Text(
+			"・ "+t.Text,
+		),
 	)
 }

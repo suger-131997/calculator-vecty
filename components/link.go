@@ -21,6 +21,7 @@ type link struct {
 func (l *link) Render() vecty.ComponentOrHTML {
 	return elem.Button(
 		vecty.Markup(
+			vecty.Class("button"),
 			prop.Disabled(l.IsActive),
 			event.Click(l.OnClick).PreventDefault(),
 		),

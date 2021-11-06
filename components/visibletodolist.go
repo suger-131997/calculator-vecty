@@ -13,8 +13,8 @@ type VisibleTodoList struct {
 }
 
 func (a *VisibleTodoList) Render() vecty.ComponentOrHTML {
-	todosState, _ := storeutil.UseState(slice.TodosStateType, a).(slice.TodosState)
-	filterState, _ := storeutil.UseState(slice.FilterStateType, a).(slice.FilterState)
+	todosState := storeutil.UseState(slice.TodosStateType, a).(slice.TodosState)
+	filterState := storeutil.UseState(slice.FilterStateType, a).(slice.FilterState)
 
 	todos := make([]model.Todo, 0)
 
