@@ -16,27 +16,27 @@ func (a *VisibleTodoList) Render() vecty.ComponentOrHTML {
 	todosState, _ := storeutil.UseState(slice.TodosStateType, a).(slice.TodosState)
 	filterState, _ := storeutil.UseState(slice.FilterStateType, a).(slice.FilterState)
 
-	todosArray := make([]model.Todo, 0)
+	todos := make([]model.Todo, 0)
 
 	switch filterState.Type {
 	case model.All:
-		todosArray = append(todosArray, todosState.Todos...)
+		todos = append(todos, todosState.Todos...)
 	case model.Active:
 		for _, todo := range todosState.Todos {
 			if !todo.Completed {
-				todosArray = append(todosArray, todo)
+				todos = append(todos, todo)
 			}
 		}
 	case model.Completed:
 		for _, todo := range todosState.Todos {
 			if todo.Completed {
-				todosArray = append(todosArray, todo)
+				todos = append(todos, todo)
 			}
 		}
 	}
 
 	return &todoList{
-		Todos: todosArray,
+		Todos: todos,
 		OnClick: func(id int) {
 			storeutil.Dispatch(slice.CompleteTodoAction{Payload: id})
 		},
