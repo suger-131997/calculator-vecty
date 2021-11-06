@@ -18,16 +18,16 @@ func (a *VisibleTodoList) Render() vecty.ComponentOrHTML {
 
 	todosArray := make([]model.Todo, 0)
 
-	if filterState.Type == model.All {
+	switch filterState.Type {
+	case model.All:
 		todosArray = append(todosArray, todosState.Todos...)
-	} else if filterState.Type == model.Active {
-
+	case model.Active:
 		for _, todo := range todosState.Todos {
 			if !todo.Completed {
 				todosArray = append(todosArray, todo)
 			}
 		}
-	} else if filterState.Type == model.Completed {
+	case model.Completed:
 		for _, todo := range todosState.Todos {
 			if todo.Completed {
 				todosArray = append(todosArray, todo)
