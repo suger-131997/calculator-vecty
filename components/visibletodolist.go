@@ -13,22 +13,22 @@ type VisibleTodoList struct {
 }
 
 func (a *VisibleTodoList) Render() vecty.ComponentOrHTML {
-	todosState, _ := storeutil.UseState(slice.TodosStateType, a).([]model.Todo)
-	filterState, _ := storeutil.UseState(slice.FilterStateType, a).(model.FilterType)
+	todosState, _ := storeutil.UseState(slice.TodosStateType, a).(slice.TodosState)
+	filterState, _ := storeutil.UseState(slice.FilterStateType, a).(slice.FilterState)
 
 	todosArray := make([]model.Todo, 0)
 
-	if filterState == model.All {
-		todosArray = append(todosArray, todosState...)
-	} else if filterState == model.Active {
+	if filterState.Type == model.All {
+		todosArray = append(todosArray, todosState.Todos...)
+	} else if filterState.Type == model.Active {
 
-		for _, todo := range todosState {
+		for _, todo := range todosState.Todos {
 			if !todo.Completed {
 				todosArray = append(todosArray, todo)
 			}
 		}
-	} else if filterState == model.Completed {
-		for _, todo := range todosState {
+	} else if filterState.Type == model.Completed {
+		for _, todo := range todosState.Todos {
 			if todo.Completed {
 				todosArray = append(todosArray, todo)
 			}
@@ -38,7 +38,7 @@ func (a *VisibleTodoList) Render() vecty.ComponentOrHTML {
 	return &todoList{
 		Todos: todosArray,
 		OnClick: func(id int) {
-			storeutil.Dispatch(slice.NewCompleteTodoAction(id))
+			storeutil.Dispatch(slice.CompleteTodoAction{Payload: id})
 		},
 	}
 }

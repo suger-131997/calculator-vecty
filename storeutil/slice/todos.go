@@ -7,11 +7,15 @@ import (
 	"github.com/dannypsnl/redux/v2/rematch"
 )
 
-var TodosStateType = reflect.TypeOf([]model.Todo{})
+var TodosStateType = reflect.TypeOf((*TodosState)(nil)).Elem()
+
+type TodosState struct {
+	Todos []model.Todo
+}
 
 type TodosReducer struct {
 	rematch.Reducer
-	State []model.Todo
+	State TodosState
 
 	Add      *rematch.Action `action:"AddTodo"`
 	Complete *rematch.Action `action:"CompleteTodo"`
@@ -28,29 +32,25 @@ func NewAddTodoAction(t string) addTodoAction {
 	return addTodoAction{payload: model.Todo{Id: nextTodoId, Title: t, Completed: false}}
 }
 
-func (t *TodosReducer) AddTodo(s []model.Todo, a addTodoAction) []model.Todo {
-	return append(s, a.payload)
+func (t *TodosReducer) AddTodo(s TodosState, a addTodoAction) TodosState {
+	return TodosState{Todos: append(s.Todos, a.payload)}
 }
 
-type completeTodoAction struct {
-	payload int
+type CompleteTodoAction struct {
+	Payload int
 }
 
-func NewCompleteTodoAction(id int) completeTodoAction {
-	return completeTodoAction{payload: id}
-}
+func (t *TodosReducer) CompleteTodo(s TodosState, a CompleteTodoAction) TodosState {
+	newTodos := make([]model.Todo, 0)
 
-func (t *TodosReducer) CompleteTodo(s []model.Todo, a completeTodoAction) []model.Todo {
-	newState := make([]model.Todo, 0)
-
-	for _, todo := range s {
-		if todo.Id == a.payload {
+	for _, todo := range s.Todos {
+		if todo.Id == a.Payload {
 			todo.Completed = !todo.Completed
 		}
-		newState = append(newState, todo)
+		newTodos = append(newTodos, todo)
 	}
 
-	return newState
+	return TodosState{Todos: newTodos}
 }
 
 func init() {

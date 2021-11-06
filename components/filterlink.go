@@ -16,14 +16,14 @@ type FilterLink struct {
 }
 
 func (f *FilterLink) Render() vecty.ComponentOrHTML {
-	isActive := storeutil.UseState(slice.FilterStateType, f).(model.FilterType) == f.Type
+	isActive := storeutil.UseState(slice.FilterStateType, f).(slice.FilterState).Type == f.Type
 
 	return &link{
 		Type:     f.Type,
 		IsActive: isActive,
 		Label:    f.Label,
 		OnClick: func(event *vecty.Event) {
-			storeutil.Dispatch(f.Type)
+			storeutil.Dispatch(slice.ChengeFilterAction{Payload: f.Type})
 		},
 	}
 }

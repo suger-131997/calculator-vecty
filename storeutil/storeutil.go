@@ -41,6 +41,7 @@ func Dispatch(a interface{}) {
 	for _, c := range stateTypeToComponents[st] {
 		vecty.Rerender(c)
 	}
+	stateTypeToComponents[st] = make([]vecty.Component, 0)
 }
 
 func initReducer(reducer interface{}) {
@@ -64,8 +65,8 @@ func initReducer(reducer interface{}) {
 }
 
 func init() {
-	todosReducer := &slice.TodosReducer{State: make([]model.Todo, 0)}
-	filterReducer := &slice.FilterReducer{State: model.All}
+	todosReducer := &slice.TodosReducer{State: slice.TodosState{Todos: make([]model.Todo, 0)}}
+	filterReducer := &slice.FilterReducer{State: slice.FilterState{Type: model.All}}
 
 	reducers := []interface{}{todosReducer, filterReducer}
 

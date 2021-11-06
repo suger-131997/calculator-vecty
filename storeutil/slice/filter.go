@@ -7,15 +7,23 @@ import (
 	"github.com/dannypsnl/redux/v2/rematch"
 )
 
-var FilterStateType = reflect.TypeOf((*model.FilterType)(nil)).Elem() //reflect.TypeOf(model.All)
+var FilterStateType = reflect.TypeOf((*FilterState)(nil)).Elem()
+
+type FilterState struct {
+	Type model.FilterType
+}
 
 type FilterReducer struct {
 	rematch.Reducer
-	State model.FilterType
+	State FilterState
 
 	Chenge *rematch.Action `action:"ChengeFilter"`
 }
 
-func (t *FilterReducer) ChengeFilter(s, a model.FilterType) model.FilterType {
-	return a
+type ChengeFilterAction struct {
+	Payload model.FilterType
+}
+
+func (t *FilterReducer) ChengeFilter(s FilterState, a ChengeFilterAction) FilterState {
+	return FilterState{Type: a.Payload}
 }
