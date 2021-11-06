@@ -2,19 +2,17 @@ package storeutil
 
 import (
 	"reflect"
-	"todos-vecty/model"
-	"todos-vecty/storeutil/slice"
 
 	"github.com/dannypsnl/redux/v2/rematch"
 	"github.com/dannypsnl/redux/v2/store"
 	"github.com/hexops/vecty"
 )
 
-var stores map[reflect.Type]interface{}
-var stateTypeToStoreType map[reflect.Type]reflect.Type
-var stateTypeToComponents map[reflect.Type][]vecty.Component
-var actTypeToStateType map[reflect.Type]reflect.Type
-var actTypeToRematcher map[reflect.Type]string
+var stores = make(map[reflect.Type]interface{})
+var stateTypeToStoreType = make(map[reflect.Type]reflect.Type)
+var stateTypeToComponents = make(map[reflect.Type][]vecty.Component)
+var actTypeToStateType = make(map[reflect.Type]reflect.Type)
+var actTypeToRematcher = make(map[reflect.Type]string)
 var rootStore *store.Store
 
 func UseState(stateType reflect.Type, c vecty.Component) interface{} {
@@ -64,21 +62,10 @@ func initReducer(reducer interface{}) {
 	}
 }
 
-func init() {
-	todosReducer := &slice.TodosReducer{State: slice.TodosState{Todos: make([]model.Todo, 0)}}
-	filterReducer := &slice.FilterReducer{State: slice.FilterState{Type: model.All}}
-
-	reducers := []interface{}{todosReducer, filterReducer}
-
-	stores = make(map[reflect.Type]interface{})
-	stateTypeToStoreType = make(map[reflect.Type]reflect.Type)
-	stateTypeToComponents = make(map[reflect.Type][]vecty.Component)
-	actTypeToStateType = make(map[reflect.Type]reflect.Type)
-	actTypeToRematcher = make(map[reflect.Type]string)
-
+func Init(reducers ...interface{}) {
 	for _, r := range reducers {
 		initReducer(r)
 	}
 
-	rootStore = store.New(todosReducer, filterReducer)
+	rootStore = store.New(reducers...)
 }

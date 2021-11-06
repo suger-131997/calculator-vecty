@@ -20,6 +20,10 @@ type FilterReducer struct {
 	Chenge *rematch.Action `action:"ChengeFilter"`
 }
 
+func NewFilterReducer() *FilterReducer {
+	return &FilterReducer{State: FilterState{Type: model.All}}
+}
+
 type ChengeFilterAction struct {
 	Payload model.FilterType
 }

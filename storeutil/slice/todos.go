@@ -21,6 +21,10 @@ type TodosReducer struct {
 	Complete *rematch.Action `action:"CompleteTodo"`
 }
 
+func NewTodosReducer() *TodosReducer {
+	return &TodosReducer{State: TodosState{Todos: make([]model.Todo, 0)}}
+}
+
 type addTodoAction struct {
 	payload model.Todo
 }
