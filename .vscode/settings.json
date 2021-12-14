@@ -1,0 +1,14 @@
+{
+    "go.toolsEnvVars": {
+        "GOOS": "js",
+        "GOARCH": "wasm",
+        "GOROOT": "/usr/local/go",
+        "GOPATH": "/home/yuya/go"
+    },
+    "go.testEnvVars": {
+        "GOOS": "linux",
+        "GOARCH": "amd64",
+        "GOROOT": "/usr/local/go",
+        "GOPATH": "/home/yuya/go"
+    }
+}
