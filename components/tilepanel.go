@@ -15,26 +15,22 @@ type tilePanel struct {
 
 func (b *tilePanel) Render() vecty.ComponentOrHTML {
 	return elem.Div(
-		vecty.Markup(
-			vecty.Class("tile", "is-parent", "is-vertical"),
-			vecty.Style("padding", "0"),
-		),
 		elem.Div(
 			vecty.Markup(
-				vecty.Class("tile", "is-parent"),
 				style.MinHeight("15.3vh"),
-				vecty.Style("padding", "0"),
+				vecty.Style("margin-bottom", "0"),
+				vecty.Style("display", "flex"),
 			),
 			&tileButton{Label: "AC", OnClick: helper.PushAllClear()},
-			&tileButton{Label: "+/-"},
-			&tileButton{Label: "%"},
+			&tileButton{Label: "+/-", OnClick: helper.PushInversion()},
+			&tileButton{Label: "%", OnClick: helper.PushPercentage()},
 			&tileButton{Label: "÷", White: true, OnClick: helper.PushOperator(model.Divide)},
 		),
 		elem.Div(
 			vecty.Markup(
-				vecty.Class("tile", "is-parent"),
 				style.MinHeight("15.3vh"),
-				vecty.Style("padding", "0"),
+				vecty.Style("margin-bottom", "0"),
+				vecty.Style("display", "flex"),
 			),
 			&tileButton{Label: "7", OnClick: helper.PushDigit("7")},
 			&tileButton{Label: "8", OnClick: helper.PushDigit("8")},
@@ -43,9 +39,9 @@ func (b *tilePanel) Render() vecty.ComponentOrHTML {
 		),
 		elem.Div(
 			vecty.Markup(
-				vecty.Class("tile", "is-parent"),
 				style.MinHeight("15.3vh"),
-				vecty.Style("padding", "0"),
+				vecty.Style("margin-bottom", "0"),
+				vecty.Style("display", "flex"),
 			),
 			&tileButton{Label: "4", OnClick: helper.PushDigit("4")},
 			&tileButton{Label: "5", OnClick: helper.PushDigit("5")},
@@ -54,9 +50,9 @@ func (b *tilePanel) Render() vecty.ComponentOrHTML {
 		),
 		elem.Div(
 			vecty.Markup(
-				vecty.Class("tile", "is-parent"),
 				style.MinHeight("15.3vh"),
-				vecty.Style("padding", "0"),
+				vecty.Style("margin-bottom", "0"),
+				vecty.Style("display", "flex"),
 			),
 			&tileButton{Label: "1", OnClick: helper.PushDigit("1")},
 			&tileButton{Label: "2", OnClick: helper.PushDigit("2")},
@@ -65,12 +61,12 @@ func (b *tilePanel) Render() vecty.ComponentOrHTML {
 		),
 		elem.Div(
 			vecty.Markup(
-				vecty.Class("tile", "is-parent"),
 				style.MinHeight("15.3vh"),
-				vecty.Style("padding", "0"),
+				vecty.Style("margin-bottom", "0"),
+				vecty.Style("display", "flex"),
 			),
 			&tileButton{Label: "0", Wide: true, OnClick: helper.PushDigit("0")},
-			&tileButton{Label: "."},
+			&tileButton{Label: ".", OnClick: helper.PushDot()},
 			&tileButton{Label: "=", White: true, OnClick: helper.PushOperator(model.Equals)},
 		),
 	)

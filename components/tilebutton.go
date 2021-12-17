@@ -18,12 +18,11 @@ type tileButton struct {
 }
 
 func (b *tileButton) Render() vecty.ComponentOrHTML {
-	var tc vecty.Applyer
-
+	var width vecty.Applyer
 	if b.Wide {
-		tc = vecty.Class("tile", "is-child", "is-6")
+		width = style.Width("50vw")
 	} else {
-		tc = vecty.Class("tile", "is-child", "is-1")
+		width = style.Width("25vw")
 	}
 
 	var bc vecty.Applyer
@@ -34,14 +33,13 @@ func (b *tileButton) Render() vecty.ComponentOrHTML {
 	}
 
 	return elem.Div(
-		vecty.Markup(tc),
+		vecty.Markup(width),
 		elem.Button(
 			vecty.Markup(
 				bc,
 				style.Width("100%"),
 				style.Height("100%"),
-				vecty.Style("font-size", "6vh"),
-				vecty.Style("border", "0"),
+				vecty.Style("font-size", "6vmin"),
 				vecty.Style("border-radius", "0"),
 				event.Click(b.OnClick).PreventDefault(),
 			),

@@ -18,8 +18,7 @@ func (d *display) Render() vecty.ComponentOrHTML {
 
 	return elem.Div(
 		vecty.Markup(
-			vecty.Class("tile", "is-parent", "grey-light"),
-			vecty.Style("padding", "0"),
+			vecty.Class("grey-light"),
 		),
 		elem.Paragraph(
 			vecty.Markup(

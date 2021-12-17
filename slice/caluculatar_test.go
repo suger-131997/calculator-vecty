@@ -127,6 +127,11 @@ func TestPushOperator(t *testing.T) {
 			payloads: []interface{}{"1", "2", model.Divide, "2", "9", model.Plus, "1", "2", model.Multiply, "3", model.Minus, "2", model.Equals},
 			result:   slice.CalculaterState{Total: (12.0/29.0+12.0)*3.0 - 2.0, Display: strconv.FormatFloat((12.0/29.0+12.0)*3.0-2.0, 'f', -1, 64), Next: "", Operation: model.None},
 		},
+		{
+			name:     "1/0=",
+			payloads: []interface{}{"1", model.Divide, "0", model.Equals},
+			result:   slice.CalculaterState{Total: 1, Display: "0", Next: "", Operation: model.None},
+		},
 	}
 
 	for _, test := range tests {

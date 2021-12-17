@@ -22,6 +22,7 @@ type CalculaterReducer struct {
 	State CalculaterState
 
 	Digit      *rematch.Action `action:"DigitReducer"`
+	Dot        *rematch.Action `action:"DotReducer"`
 	Operator   *rematch.Action `action:"OperatorReducer"`
 	AllClear   *rematch.Action `action:"AllClearReducer"`
 	Inversion  *rematch.Action `action:"InversionReducer"`
@@ -45,32 +46,43 @@ func (r *CalculaterReducer) DigitReducer(s CalculaterState, a DigitAction) Calcu
 	return CalculaterState{Total: s.Total, Display: next, Next: next, Operation: s.Operation}
 }
 
+type DotAction struct {
+}
+
+func (r *CalculaterReducer) DotReducer(s CalculaterState, a DotAction) CalculaterState {
+	if s.Next == "" {
+		return CalculaterState{Total: s.Total, Display: "0.", Next: "0.", Operation: s.Operation}
+	}
+
+	next := s.Next + "."
+	return CalculaterState{Total: s.Total, Display: next, Next: next, Operation: s.Operation}
+}
+
 type OperatorAction struct {
 	Operator model.Operator
 }
 
 func operation(total float64, next string, o model.Operator) (float64, string) {
+	i, _ := strconv.ParseFloat(next, 64)
 	switch o {
 	case model.Plus:
-		i, _ := strconv.ParseFloat(next, 64)
 		t := total + i
 		d := strconv.FormatFloat(t, 'f', -1, 64)
 		return t, d
 	case model.Minus:
-		i, _ := strconv.ParseFloat(next, 64)
 		t := total - i
 		d := strconv.FormatFloat(t, 'f', -1, 64)
 		return t, d
 	case model.Multiply:
-		i, _ := strconv.ParseFloat(next, 64)
 		t := total * i
 		d := strconv.FormatFloat(t, 'f', -1, 64)
 		return t, d
 	case model.Divide:
-		i, _ := strconv.ParseFloat(next, 64)
-		t := total / i
-		d := strconv.FormatFloat(t, 'f', -1, 64)
-		return t, d
+		if i != 0.0 {
+			t := total / i
+			d := strconv.FormatFloat(t, 'f', -1, 64)
+			return t, d
+		}
 	}
 
 	return total, next
@@ -91,6 +103,9 @@ func (r *CalculaterReducer) OperatorReducer(s CalculaterState, a OperatorAction)
 
 	if s.Operation != model.None {
 		t, d := operation(s.Total, s.Next, s.Operation)
+		if d == "" {
+			return CalculaterState{Total: t, Display: "0", Next: "", Operation: model.None}
+		}
 		return CalculaterState{Total: t, Display: d, Next: "", Operation: model.None}
 	}
 
